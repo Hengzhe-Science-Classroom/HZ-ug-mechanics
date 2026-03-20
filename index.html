@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mechanics (Undergraduate) — Interactive</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="app">
+        <button id="sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+        <aside id="sidebar">
+            <div id="sidebar-header">
+                <h1>Mechanics</h1>
+                <p class="author">Kleppner &amp; Kolenkow / Taylor / Morin</p>
+                <div id="progress-container">
+                    <div id="progress-bar"><div id="progress-fill"></div></div>
+                    <span id="progress-text">0%</span>
+                </div>
+            </div>
+            <div id="search-container">
+                <input type="text" id="search-input" placeholder="Search topics...">
+            </div>
+            <nav id="chapter-nav"></nav>
+            <div id="sidebar-footer"><p class="copyright-notice" style="font-size:0.7rem;color:#888;margin-top:12px;text-align:center;">&copy; 2026 Hengzhe Zhao · AGPL-3.0 &amp; Commercial</p>
+                <button id="reset-progress">Reset Progress</button>
+            </div>
+        </aside>
+        <main id="main-content">
+            <div id="welcome-screen">
+                <div class="welcome-hero">
+                    <h1>Mechanics</h1>
+                    <h2>Rigorous Newtonian Mechanics for Physics Majors</h2>
+                    <p class="welcome-description">
+                        From vectors to Lagrangians. Rigorous derivations, deep physical insight,
+                        and stunning simulations — the undergraduate mechanics course done right.
+                    </p>
+                </div>
+                <div class="roadmap">
+                    <h3>What You'll Explore</h3>
+                    <div class="roadmap-parts">
+                        <div class="roadmap-part">
+                            <h4>Part A: Math Tools</h4>
+                            <ul>
+                                <li>Ch 0: Vectors &amp; Vector Calculus</li>
+                                <li>Ch 1: Coordinate Systems</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part B: Particle Dynamics</h4>
+                            <ul>
+                                <li>Ch 2: Kinematics</li>
+                                <li>Ch 3: Newton's Laws (Rigorous)</li>
+                                <li>Ch 4: Non-Inertial Frames</li>
+                                <li>Ch 5: Drag &amp; Velocity-Dependent Forces</li>
+                                <li>Ch 6: Constrained Motion</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part C: Energy &amp; Momentum</h4>
+                            <ul>
+                                <li>Ch 7: Work &amp; Kinetic Energy</li>
+                                <li>Ch 8: Potential Energy</li>
+                                <li>Ch 9: Momentum &amp; Center of Mass</li>
+                                <li>Ch 10: Collisions</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part D: Rotation</h4>
+                            <ul>
+                                <li>Ch 11: Rigid Body Kinematics</li>
+                                <li>Ch 12: Moment of Inertia</li>
+                                <li>Ch 13: Torque &amp; Angular Momentum</li>
+                                <li>Ch 14: Rolling &amp; Precession</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part E: Oscillations</h4>
+                            <ul>
+                                <li>Ch 15: Simple Harmonic Motion</li>
+                                <li>Ch 16: Damped &amp; Driven Oscillations</li>
+                                <li>Ch 17: Coupled Oscillators</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part F: Central Forces</h4>
+                            <ul>
+                                <li>Ch 18: Central Force &amp; Effective Potential</li>
+                                <li>Ch 19: Kepler Problem &amp; Orbits</li>
+                            </ul>
+                        </div>
+                        <div class="roadmap-part">
+                            <h4>Part G: Analytical Mechanics</h4>
+                            <ul>
+                                <li>Ch 20: Lagrangian Mechanics</li>
+                                <li>Ch 21: Hamiltonian Mechanics</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <p class="welcome-start">Select a chapter from the sidebar to begin rigorous mechanics!</p>
+            </div>
+            <div id="chapter-content" style="display:none;">
+                <div id="chapter-header">
+                    <div id="chapter-number-badge"></div>
+                    <h1 id="chapter-title"></h1>
+                    <p id="chapter-subtitle"></p>
+                </div>
+                <div id="section-tabs"></div>
+                <div id="section-content"></div>
+                <div id="exercises-panel" style="display:none;">
+                    <h3>Exercises</h3>
+                    <div id="exercises-list"></div>
+                </div>
+                <div id="chapter-nav-buttons">
+                    <button id="prev-btn">&larr; Previous</button>
+                    <span id="section-indicator"></span>
+                    <button id="next-btn">Next &rarr;</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+    window.CHAPTER_MANIFEST = [
+        {number:0,  id:'ch00', title:'Vectors & Vector Calculus',            file:'ch00-vectors'},
+        {number:1,  id:'ch01', title:'Coordinate Systems',                  file:'ch01-coordinates'},
+        {number:2,  id:'ch02', title:'Kinematics',                          file:'ch02-kinematics'},
+        {number:3,  id:'ch03', title:'Newton\'s Laws (Rigorous)',           file:'ch03-newton'},
+        {number:4,  id:'ch04', title:'Non-Inertial Frames',                file:'ch04-non-inertial'},
+        {number:5,  id:'ch05', title:'Drag & Velocity-Dependent Forces',    file:'ch05-drag'},
+        {number:6,  id:'ch06', title:'Constrained Motion',                  file:'ch06-constraints'},
+        {number:7,  id:'ch07', title:'Work & Kinetic Energy',               file:'ch07-work-energy'},
+        {number:8,  id:'ch08', title:'Potential Energy & Conservation',      file:'ch08-potential'},
+        {number:9,  id:'ch09', title:'Momentum & Center of Mass',           file:'ch09-momentum'},
+        {number:10, id:'ch10', title:'Collisions',                          file:'ch10-collisions'},
+        {number:11, id:'ch11', title:'Rigid Body Kinematics',               file:'ch11-rigid-kinematics'},
+        {number:12, id:'ch12', title:'Moment of Inertia',                   file:'ch12-inertia'},
+        {number:13, id:'ch13', title:'Torque & Angular Momentum',           file:'ch13-angular-momentum'},
+        {number:14, id:'ch14', title:'Rolling & Precession',                file:'ch14-rolling'},
+        {number:15, id:'ch15', title:'Simple Harmonic Motion',              file:'ch15-shm'},
+        {number:16, id:'ch16', title:'Damped & Driven Oscillations',        file:'ch16-damped'},
+        {number:17, id:'ch17', title:'Coupled Oscillators & Normal Modes',  file:'ch17-coupled'},
+        {number:18, id:'ch18', title:'Central Force & Effective Potential',  file:'ch18-central'},
+        {number:19, id:'ch19', title:'Kepler Problem & Orbits',             file:'ch19-kepler'},
+        {number:20, id:'ch20', title:'Lagrangian Mechanics',                file:'ch20-lagrangian'},
+        {number:21, id:'ch21', title:'Hamiltonian Mechanics',               file:'ch21-hamiltonian'}
+    ];
+    </script>
+    <script src="viz-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
